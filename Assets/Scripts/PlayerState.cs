@@ -18,7 +18,7 @@ public class PlayerState
 
     public virtual void Enter()
     {
-        Debug.Log("ø£≈Õ " + animBoolName);
+        player.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Update()
@@ -28,6 +28,6 @@ public class PlayerState
 
     public virtual void Exit()
     {
-        Debug.Log("ø¢Ω√∆Æ " + animBoolName);
+        player.anim.SetBool(animBoolName, false);
     }
 }

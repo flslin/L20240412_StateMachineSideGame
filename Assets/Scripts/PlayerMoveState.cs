@@ -23,7 +23,9 @@ public class PlayerMoveState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.N))
+        player.SetVelocity(xInput * player.moveSpeed, player.rb.velocity.y);
+
+        if (xInput == 0)
             stateMachine.ChangeState(player.idleState);
     }
 }

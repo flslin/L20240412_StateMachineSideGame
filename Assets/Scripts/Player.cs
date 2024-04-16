@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public float dashUsageTimer;
     public float dashSpeed;
     public float dashDuration;
-    public float dashDir {  get; private set; }
+    public float dashDir { get; private set; }
 
     [Header("Collision info")]
     [SerializeField] private Transform groundCheck;
@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
+    public PlayerPrimaryAttack primaryAttack2 { get; private set; }
+    public PlayerPrimaryAttack primaryAttack3 { get; private set; }
     #endregion
 
     public void Awake()
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
         WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
+        primaryAttack2 = new PlayerPrimaryAttack(this, stateMachine, "combo");
+        primaryAttack3 = new PlayerPrimaryAttack(this, stateMachine, "combo");
     }
 
     private void Start()
@@ -66,8 +70,24 @@ public class Player : MonoBehaviour
 
     public void AnimationTrigger()
     {
-        //if (!combo)
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(Attack());
+        }
+        else if (stateMachine.currentState == primaryAttack && Input.GetKeyDown(KeyCode.F))
+        {
+            StopCoroutine(Attack());
+            StartCoroutine(Attack2());
+        }
+        else if (stateMachine.currentState == primaryAttack2 && Input.GetKeyDown(KeyCode.F))
+        {
+            StopCoroutine(Attack2());
+            StartCoroutine(Attack3());
+        }
+        else
+        {
             stateMachine.currentState.AnimationFinishTrigger();
+        }
     }
 
     private void Update()
@@ -76,7 +96,7 @@ public class Player : MonoBehaviour
 
         CheckForDashInput();
 
-        Debug.Log(isWallDetected());
+        //Debug.Log(isWallDetected());
     }
 
     private void CheckForDashInput()
@@ -128,5 +148,23 @@ public class Player : MonoBehaviour
         //else if (rb.velocity.x < 0 && facingRight)
         else if (_x < 0 && facingRight)
             Flip();
+    }
+
+    IEnumerator Attack()
+    {
+        stateMachine.ChangeState(primaryAttack);
+        yield return null;
+    }
+
+    IEnumerator Attack2()
+    {
+        stateMachine.ChangeState(primaryAttack2);
+        yield return null;
+    }
+
+    IEnumerator Attack3()
+    {
+        stateMachine.ChangeState(primaryAttack3);
+        yield return null;
     }
 }

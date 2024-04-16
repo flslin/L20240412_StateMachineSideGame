@@ -19,7 +19,12 @@ public class PlayerDashState : PlayerState
     {
         base.Update();
 
-        player.SetVelocity(player.dashSpeed * player.dashDir, rb.velocity.y);
+        if(!player.isGroundDetected() && player.isWallDetected())
+        {
+            stateMachine.ChangeState(player.wallSlideState);
+        }
+
+        player.SetVelocity(player.dashSpeed * player.dashDir, 0/*rb.velocity.y*/);
 
         if (stateTimer < 0)
             stateMachine.ChangeState(player.idleState);

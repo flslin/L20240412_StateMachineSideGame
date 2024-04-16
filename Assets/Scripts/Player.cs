@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     public PlayerWallSlideState wallSlideState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerDashState dashState { get; private set; }
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
     #endregion
 
     public void Awake()
@@ -51,7 +52,8 @@ public class Player : MonoBehaviour
         airState = new PlayerAirState(this, stateMachine, "jump");
         dashState = new PlayerDashState(this, stateMachine, "dash");
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
-        WallJumpState = new PlayerWallJumpState(this, stateMachine, "wallSlide");
+        WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
     }
 
     private void Start()
@@ -60,6 +62,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         stateMachine.Initialize(idleState);
+    }
+
+    public void AnimationTrigger()
+    {
+        //if (!combo)
+            stateMachine.currentState.AnimationFinishTrigger();
     }
 
     private void Update()

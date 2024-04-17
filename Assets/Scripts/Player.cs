@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack details")]
+    public Vector2[] attackMovement;
+    public bool isBusy {  get; private set; }
+
     [Header("Move info")]
     public float moveSpeed = 12f;
     public float jumpForce;
@@ -40,8 +44,6 @@ public class Player : MonoBehaviour
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
-    public PlayerPrimaryAttack primaryAttack2 { get; private set; }
-    public PlayerPrimaryAttack primaryAttack3 { get; private set; }
     #endregion
 
     public void Awake()
@@ -56,8 +58,6 @@ public class Player : MonoBehaviour
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
         WallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
-        primaryAttack2 = new PlayerPrimaryAttack(this, stateMachine, "combo");
-        primaryAttack3 = new PlayerPrimaryAttack(this, stateMachine, "combo");
     }
 
     private void Start()
@@ -70,24 +70,7 @@ public class Player : MonoBehaviour
 
     public void AnimationTrigger()
     {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            StartCoroutine(Attack());
-        }
-        else if (stateMachine.currentState == primaryAttack && Input.GetKeyDown(KeyCode.F))
-        {
-            StopCoroutine(Attack());
-            StartCoroutine(Attack2());
-        }
-        else if (stateMachine.currentState == primaryAttack2 && Input.GetKeyDown(KeyCode.F))
-        {
-            StopCoroutine(Attack2());
-            StartCoroutine(Attack3());
-        }
-        else
-        {
-            stateMachine.currentState.AnimationFinishTrigger();
-        }
+        stateMachine.ChangeState(idleState);
     }
 
     private void Update()
@@ -96,7 +79,13 @@ public class Player : MonoBehaviour
 
         CheckForDashInput();
 
-        //Debug.Log(isWallDetected());
+    }
+
+    public IEnumerator BusyFor(float _second)
+    {
+        isBusy = true;
+        yield return new WaitForSeconds(0.1f);
+        isBusy = false;
     }
 
     private void CheckForDashInput()
@@ -118,12 +107,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    #region Velocity
+    public void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
+
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipCintroller(_xVelocity);
     }
+    #endregion
 
+    #region Collision
     public bool isGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool isWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
 
@@ -132,7 +126,9 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
+    #endregion
 
+    #region Flip
     public void Flip()
     {
         facingDir = facingDir * -1;
@@ -149,22 +145,5 @@ public class Player : MonoBehaviour
         else if (_x < 0 && facingRight)
             Flip();
     }
-
-    IEnumerator Attack()
-    {
-        stateMachine.ChangeState(primaryAttack);
-        yield return null;
-    }
-
-    IEnumerator Attack2()
-    {
-        stateMachine.ChangeState(primaryAttack2);
-        yield return null;
-    }
-
-    IEnumerator Attack3()
-    {
-        stateMachine.ChangeState(primaryAttack3);
-        yield return null;
-    }
+    #endregion
 }

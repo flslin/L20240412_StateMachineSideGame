@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGroundedState : EnemyState
+public class EnemyAttackState : EnemyState
 {
-    public EnemyGroundedState(Enemy _enemy, EnemyStateMachine _stateMachine, string _animBoolName) : base(_enemy, _stateMachine, _animBoolName)
+    Enemy enemy;
+
+    public EnemyAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
+        this.enemy = _enemy;
     }
 
     public override void Enter()
@@ -22,7 +25,6 @@ public class EnemyGroundedState : EnemyState
     {
         base.Update();
 
-        if (enemy.isGroundDetected())
-            stateMachine.ChangeState(enemy.moveState);
+        
     }
 }

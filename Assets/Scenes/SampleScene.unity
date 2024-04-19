@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 53535950}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,9 +166,9 @@ GameObject:
   - component: {fileID: 244083216}
   - component: {fileID: 244083214}
   - component: {fileID: 244083213}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,6 +280,9 @@ MonoBehaviour:
     m_Bits: 64
   moveSpeed: 2
   idleTime: 0
+  battleTime: 3
+  attackCoolDown: 2
+  lastTimeAttacked: 0
 --- !u!1 &291157731
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +396,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3.5
@@ -958,7 +961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 877926966}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1025,7 +1028,7 @@ GameObject:
   - component: {fileID: 1079503165}
   - component: {fileID: 1079503164}
   - component: {fileID: 1079503166}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48000,7 +48003,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948061719}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

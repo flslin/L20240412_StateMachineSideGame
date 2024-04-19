@@ -39,13 +39,33 @@ public class EnemyState
 
         if (enemyBase.isPlayerDetected())
         {
-            enemyBase.SetVelocity(0, 0);
-            stateMachine.ChangeState(enemyBase.attackState);
+            enemyBase.ZeroVelocity();
+            stateTimer = enemyBase.battleTime;
+            if (CanAttack())
+            {
+                stateMachine.ChangeState(enemyBase.battleState);
+            }
+        }
+        else
+        {
+            if(stateTimer < 0)
+                stateMachine.ChangeState(enemyBase.idleState);
+            enemyBase.ZeroVelocity();
         }
     }
 
     public virtual void Exit()
     {
         enemyBase.anim.SetBool(animBoolName, false);
+    }
+
+    private bool CanAttack()
+    {
+        if (Time.time >= enemyBase.lastTimeAttacked + enemyBase.attackCoolDown)
+        {
+            enemyBase.lastTimeAttacked = Time.time;
+            return true;
+        }
+        return false;
     }
 }

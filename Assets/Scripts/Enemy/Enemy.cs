@@ -11,11 +11,16 @@ public class Enemy : Entity
     [Header("Move info")]
     public float moveSpeed = 2f;
     public float idleTime;
+    public float battleTime;
+
+    public int attackCoolDown;
+    [HideInInspector]public float lastTimeAttacked;
 
     #region States
     public EnemyStateMachine stateMachine { get; private set; }
     public EnemyIdleState idleState { get; private set; }
     public EnemyMoveState moveState { get; private set; }
+    public EnemyBattleState battleState { get; private set; }
     public EnemyAttackState attackState { get; private set; }
     #endregion
 
@@ -27,10 +32,12 @@ public class Enemy : Entity
 
         idleState = new EnemyIdleState(this, stateMachine, "idle", this);
         moveState = new EnemyMoveState(this, stateMachine, "move", this);
+        battleState = new EnemyBattleState(this, stateMachine, "move", this);
         attackState = new EnemyAttackState(this, stateMachine, "attack", this);
     }
 
-    public bool isPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsPlayer);
+    public RaycastHit2D isPlayerDetected() => Physics2D.Raycast(playerCheck.position, Vector2.right * facingDir, playerCheckDistance, whatIsPlayer);
+    //public bool isPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsPlayer);
 
     protected override void Start()
     {
@@ -42,6 +49,7 @@ public class Enemy : Entity
     protected override void Update()
     {
         stateMachine.currentState.Update();
+        idleTime = Time.time;
     }
 
     protected override void OnDrawGizmos()

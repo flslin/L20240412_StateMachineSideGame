@@ -16,8 +16,6 @@ public class EnemyIdleState : EnemyState
         base.Enter();
 
         stateTimer = enemy.idleTime;
-
-        enemy.ZeroVelocity();
     }
 
     public override void Exit()
@@ -29,7 +27,14 @@ public class EnemyIdleState : EnemyState
     {
         base.Update();
 
-        if (stateTimer < 0)
+        stateTimer = Time.time;
+
+        if (stateTimer > 2)
+        {
             stateMachine.ChangeState(enemy.moveState);
+            enemy.SetVelocity(enemy.moveSpeed * enemy.facingDir, enemy.rb.velocity.y);
+        }
+        //else
+        //    stateMachine.ChangeState(enemy.idleState);
     }
 }

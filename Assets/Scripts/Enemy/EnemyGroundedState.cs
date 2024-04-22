@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGroundedState : EnemyState    
+public class EnemyGroundedState : EnemyState
 {
     Enemy enemy;
 
@@ -26,6 +26,9 @@ public class EnemyGroundedState : EnemyState
         base.Update();
 
         if (enemy.isGroundDetected())
+        {
             stateMachine.ChangeState(enemy.moveState);
+            enemy.SetVelocity(2 * enemy.moveSpeed * enemy.facingDir, rb.position.y);
+        }
     }
 }

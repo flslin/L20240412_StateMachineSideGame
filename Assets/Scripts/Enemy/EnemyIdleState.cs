@@ -29,7 +29,7 @@ public class EnemyIdleState : EnemyState
 
         stateTimer = Time.time;
 
-        if (stateTimer > 2)
+        if (!enemy.isPlayerDetected())
         {
             stateMachine.ChangeState(enemy.moveState);
             enemy.SetVelocity(enemy.moveSpeed * enemy.facingDir, enemy.rb.velocity.y);

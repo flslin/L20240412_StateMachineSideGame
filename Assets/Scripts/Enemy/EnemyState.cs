@@ -43,14 +43,14 @@ public class EnemyState
             stateTimer = enemyBase.battleTime;
             if (CanAttack())
             {
-                stateMachine.ChangeState(enemyBase.battleState);
+                stateMachine.ChangeState(enemyBase.attackState);
             }
         }
         else
         {
-            if(stateTimer < 0)
-                stateMachine.ChangeState(enemyBase.idleState);
             enemyBase.ZeroVelocity();
+            if (stateTimer < 0)
+                stateMachine.ChangeState(enemyBase.idleState);
         }
     }
 

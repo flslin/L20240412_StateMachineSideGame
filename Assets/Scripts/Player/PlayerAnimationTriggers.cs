@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationTrigger : MonoBehaviour
+public class PlayerAnimationTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
     private void AnimationTrigger()
@@ -12,11 +12,14 @@ public class PlayerAnimationTrigger : MonoBehaviour
 
     private void AttackTrigger()
     {
-        Collider2D[] coll = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius); // OverlaCircleAll - 범위안의 모든 콜라이더를 받아옴
-        foreach(var hit in coll)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
+
+        foreach(var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)
                 hit.GetComponent<Enemy>().Damage();
         }
+
     }
 }
+

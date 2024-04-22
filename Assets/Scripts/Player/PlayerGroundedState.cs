@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
@@ -14,24 +13,29 @@ public class PlayerGroundedState : PlayerState
         base.Enter();
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
     public override void Update()
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.F))
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
             stateMachine.ChangeState(player.primaryAttack);
 
-        if(!player.isGroundDetected())
+
+
+        if (!player.IsGroundDetected())
             stateMachine.ChangeState(player.airState);
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.isGroundDetected())
+
+
+        if(Input.GetKeyDown(KeyCode.Space)&&player.IsGroundDetected())
         {
             stateMachine.ChangeState(player.jumpState);
         }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 }

@@ -4,63 +4,84 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-    [SerializeField] private Transform playerCheck;
-    [SerializeField] private float playerCheckDistance;
-    [SerializeField] private LayerMask whatIsPlayer;
+    [SerializeField]
+    protected LayerMask whatIsPlayer;
 
-    [Header("Move info")]
-    public float moveSpeed = 2f;
+
+    [Header("Stunned info")]
+    public float stunDuration;
+    public Vector2 stunDirection;
+    protected bool canBeStunned;
+    [SerializeField] protected GameObject counterImage;
+
+
+    [Header("Move Info")]
+    public float moveSpeed;
     public float idleTime;
     public float battleTime;
 
-    public int attackCoolDown;
-    [HideInInspector]public float lastTimeAttacked;
+    [Header("Attack Info")]
+    [SerializeField]
+    public float attackDistance;
+    public float attackCooldown;
+    [HideInInspector] public float lastTimeAttacked;
 
-    #region States
+
+
     public EnemyStateMachine stateMachine { get; private set; }
-    public EnemyIdleState idleState { get; private set; }
-    public EnemyMoveState moveState { get; private set; }
-    public EnemyBattleState battleState { get; private set; }
-    public EnemyAttackState attackState { get; private set; }
-    #endregion
 
     protected override void Awake()
     {
         base.Awake();
-
         stateMachine = new EnemyStateMachine();
-
-        idleState = new EnemyIdleState(this, stateMachine, "idle", this);
-        moveState = new EnemyMoveState(this, stateMachine, "move", this);
-        battleState = new EnemyBattleState(this, stateMachine, "move", this);
-        attackState = new EnemyAttackState(this, stateMachine, "attack", this);
-    }
-
-    public RaycastHit2D isPlayerDetected() => Physics2D.Raycast(playerCheck.position, Vector2.right * facingDir, playerCheckDistance, whatIsPlayer);
-    //public bool isPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsPlayer);
-
-    protected override void Start()
-    {
-        base.Start();
-
-        stateMachine.Initialize(idleState);
     }
 
     protected override void Update()
     {
+        base.Update();
+
         stateMachine.currentState.Update();
-        idleTime = Time.time;
     }
+
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStunned = true;
+        counterImage.SetActive(true);
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
+    }
+
+    protected virtual bool CanBeStunned()
+    {
+        if(canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50, whatIsPlayer);
+
 
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
 
-        Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + playerCheckDistance * facingDir, playerCheck.position.y));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
     }
 
-    public void AnimationTrigger()
-    {
-        stateMachine.ChangeState(idleState);
-    }
+
+
 }

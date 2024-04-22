@@ -2,23 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyState
+public class EnemyState 
 {
     protected EnemyStateMachine stateMachine;
     protected Enemy enemyBase;
-
-    protected bool triggerCalled;
-    private string animBoolName;
-
-    protected float x = 2;
-    protected float y;
-
     protected Rigidbody2D rb;
-
+   
+    private string animBoolName;
     protected float stateTimer;
-    public float idleTime;
+    protected bool triggerCalled;
 
-    public EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName)
+    public EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine,string _animBoolName)
     {
         this.enemyBase = _enemyBase;
         this.stateMachine = _stateMachine;
@@ -28,30 +22,13 @@ public class EnemyState
     public virtual void Enter()
     {
         triggerCalled = false;
-        enemyBase.anim.SetBool(animBoolName, true);
-
         rb = enemyBase.rb;
+        enemyBase.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Update()
     {
         stateTimer -= Time.deltaTime;
-
-        if (enemyBase.isPlayerDetected())
-        {
-            enemyBase.ZeroVelocity();
-            stateTimer = enemyBase.battleTime;
-            if (CanAttack())
-            {
-                stateMachine.ChangeState(enemyBase.attackState);
-            }
-        }
-        else
-        {
-            enemyBase.ZeroVelocity();
-            if (stateTimer < 0)
-                stateMachine.ChangeState(enemyBase.idleState);
-        }
     }
 
     public virtual void Exit()
@@ -59,13 +36,10 @@ public class EnemyState
         enemyBase.anim.SetBool(animBoolName, false);
     }
 
-    private bool CanAttack()
+    public virtual void AnimationFinishTrigger()
     {
-        if (Time.time >= enemyBase.lastTimeAttacked + enemyBase.attackCoolDown)
-        {
-            enemyBase.lastTimeAttacked = Time.time;
-            return true;
-        }
-        return false;
+        triggerCalled = true;
     }
+
+
 }

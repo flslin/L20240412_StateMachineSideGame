@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonGroundedState : EnemyState
 {
-    private Enemy_Skeleton enemy;
+    protected Enemy_Skeleton enemy;
     protected Transform player;
     public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) :
         base(_enemyBase, _stateMachine, _animBoolName)
@@ -27,7 +27,7 @@ public class SkeletonGroundedState : EnemyState
     {
         base.Update();
 
-        if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position,player.position) <2)
-         stateMachine.ChangeState(enemy.battleState);
+        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, player.position) < 1)
+            stateMachine.ChangeState(enemy.battleState);
     }
 }

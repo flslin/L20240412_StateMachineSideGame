@@ -22,7 +22,6 @@ public class Player : Entity
     public float dashDir { get; private set; }
      
     #region States
-
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
@@ -35,6 +34,10 @@ public class Player : Entity
     public PlayerCounterAttackState counterAttack { get; private set; }   
     #endregion
 
+    public void SetIdleState()
+    {
+        stateMachine.ChangeState(idleState);
+    }
 
     protected override void Awake()
     {
@@ -52,15 +55,12 @@ public class Player : Entity
         counterAttack = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
     }
 
-
     protected override void Start()
     {
         base.Start();
 
         stateMachine.Initialize(idleState);
     }
-
-
 
     protected override void Update()
     {
@@ -71,7 +71,6 @@ public class Player : Entity
         CheckForDashInput();
     }
 
-
     public IEnumerator BusyFor(float _seconds)
     {
         isBusy = true;
@@ -81,21 +80,14 @@ public class Player : Entity
         isBusy = false;
     }
 
-
-
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
-
-
-
 
     private void CheckForDashInput()
     {
-
         if (IsWallDetected())
             return;
 
         dashUsageTimer -= Time.deltaTime;
-
 
         if(Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer <0)
         {
@@ -109,11 +101,4 @@ public class Player : Entity
         }
            
     }
-
- 
-
-
-
-
-
 }

@@ -40,6 +40,4 @@ public class EnemyState
     {
         triggerCalled = true;
     }
-
-
 }

@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class Enemy_Skeleton : Enemy
 {
-
     #region States
-
     public SkeletonIdleState idleState { get; private set; }
     public SkeletonMoveState moveState { get; private set; }
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }
     public SkeletonStunnedState stunnedState { get; private set; }
-
     #endregion
-
 
     protected override void Awake()
     {
@@ -27,30 +23,36 @@ public class Enemy_Skeleton : Enemy
         stunnedState = new SkeletonStunnedState(this, stateMachine, "stun", this);
     }
 
+    public void SetIdleState()
+    {
+        idleTime = 50;
+        stateMachine.ChangeState(idleState);
+        Debug.Log("ChangeState : " + stateMachine.currentState);
+    }
+
     protected override void Start()
     {
         base.Start();
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(moveState);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if(Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             stateMachine.ChangeState(stunnedState);
         }
     }
 
-
     public override bool CanBeStunned()
     {
-         if(base.CanBeStunned())
+        if (base.CanBeStunned())
         {
             stateMachine.ChangeState(stunnedState);
             return true;
         }
-         return false;
+        return false;
     }
 }

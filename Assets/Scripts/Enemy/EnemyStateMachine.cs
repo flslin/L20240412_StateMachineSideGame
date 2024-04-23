@@ -18,6 +18,4 @@ public class EnemyStateMachine
         currentState = _newState;
         currentState.Enter();
     }
-
-
 }

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
-
     [Header("Attack details")]
     public Vector2[] attackMovement;
+    public float counterAttackDuration = 0.2f;
     
-
-
     public bool isBusy { get; private set; }
-
 
     [Header("Move info")]
     public float moveSpeed = 12f;
@@ -24,35 +20,27 @@ public class Player : Entity
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
-
- 
-
-
-
+     
     #region States
 
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
-
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerWallSlideState wallSlide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
-    
+    public PlayerCounterAttackState counterAttack { get; private set; }   
     #endregion
 
 
     protected override void Awake()
     {
-
         base.Awake();
 
-
         stateMachine = new PlayerStateMachine();
-
         idleState = new PlayerIdleState(this, stateMachine, "idle");
         moveState = new PlayerMoveState(this, stateMachine, "move");
         jumpState = new PlayerJumpState(this, stateMachine, "jump");
@@ -60,8 +48,8 @@ public class Player : Entity
         dashState = new PlayerDashState(this, stateMachine, "dash");
         wallSlide = new PlayerWallSlideState(this, stateMachine, "wallSlide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "jump");
-
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
+        counterAttack = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
     }
 
 

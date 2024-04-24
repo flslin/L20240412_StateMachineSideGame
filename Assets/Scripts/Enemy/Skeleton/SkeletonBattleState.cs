@@ -18,9 +18,11 @@ public class SkeletonBattleState : EnemyState
     {
         base.Enter();
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-       
+        //player = GameObject.FindGameObjectWithTag("Player").transform; // 20240424 수정
+        // find는 검색 알고리즘이 돌기 때문에 직접 객체를 관리 하는 것이 
+        player = PlayerManager.instance.player.transform;
     }
+
     public override void Update()
     {
         base.Update();

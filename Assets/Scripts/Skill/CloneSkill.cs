@@ -8,11 +8,23 @@ public class CloneSkill : Skill
     [SerializeField] private float cloneDuration;
     [Space]
     [SerializeField] private bool canAttack;
+    private GameObject newClone;
 
     public void CreateClone(Transform _clonePosition)
     {
-        GameObject newClone = Instantiate(clonePrefabs);
+        if (CanUseSkill())
+            newClone.GetComponent<CloneSkillController>().SetUpClone(_clonePosition, cloneDuration, canAttack);
+    }
 
-        newClone.GetComponent<CloneSkillController>().SetUpClone(_clonePosition, cloneDuration, canAttack);
+    public override bool CanUseSkill()
+    {
+        return base.CanUseSkill();
+    }
+
+    public override void UseSkill()
+    {
+        base.UseSkill();
+
+        newClone = Instantiate(clonePrefabs);
     }
 }

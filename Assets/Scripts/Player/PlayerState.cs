@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PlayerState 
@@ -49,8 +50,4 @@ public class PlayerState
     {
         triggerCalled = true;
     }
-
-
-
-
 }

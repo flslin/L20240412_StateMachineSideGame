@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 42b4ab0313ed7344598f94460d918be9
+guid: e3265ab4bf004d28a9537516768c1c75
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: 2
+  fontSize: 128
+  forceTextureCase: 3
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Syne Mono
+  - Liberation Sans
   fallbackFontReferences: []
-  customCharacters: 
-  fontRenderingMode: 2
+  customCharacters: "\uC801\uC744 \uBAA8\uB450\uCC98\uCE58\uD558\uC138\uC694"
+  fontRenderingMode: 1
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 1

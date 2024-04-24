@@ -31,13 +31,14 @@ public class Player : Entity
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
-    public PlayerCounterAttackState counterAttack { get; private set; }   
+    public PlayerCounterAttackState counterAttack { get; private set; }
     #endregion
 
-    public void SetIdleState()
-    {
-        stateMachine.ChangeState(idleState);
-    }
+    //public void SetIdleState()
+    //{
+    //    stateMachine.ChangeState(idleState);
+    //    SetVelocity(0, 0);
+    //}
 
     protected override void Awake()
     {

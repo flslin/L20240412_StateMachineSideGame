@@ -21,6 +21,8 @@ public class Player : Entity
     public float dashDuration;
     public float dashDir { get; private set; }
      
+    public SkillManager skill {  get; private set; }
+
     #region States
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerIdleState idleState { get; private set; }
@@ -32,6 +34,8 @@ public class Player : Entity
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
     public PlayerCounterAttackState counterAttack { get; private set; }
+    public PlayerAimSwordState aimSword { get; private set; }
+    public PlayerCatchSwordState catchSword { get; private set; }
     #endregion
 
     //public void SetIdleState()
@@ -54,6 +58,8 @@ public class Player : Entity
         wallJump = new PlayerWallJumpState(this, stateMachine, "jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
         counterAttack = new PlayerCounterAttackState(this, stateMachine, "counterAttack");
+        aimSword = new PlayerAimSwordState(this, stateMachine, "aimSowrd");
+        catchSword = new PlayerCatchSwordState(this, stateMachine, "catchSowrd");
     }
 
     protected override void Start()

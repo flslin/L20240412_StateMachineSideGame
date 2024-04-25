@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SwordSkill : Skill
@@ -16,8 +17,9 @@ public class SwordSkill : Skill
     [SerializeField] private float spaceBeetwenDots;
     [SerializeField] private GameObject dotPrefabs;
     [SerializeField] private Transform dotsParent;
-
     private GameObject[] dots;
+
+    public bool isHave = true;
 
     protected override void Start()
     {
@@ -45,7 +47,7 @@ public class SwordSkill : Skill
         SwordSkillController newSwordScript = newSword.GetComponent<SwordSkillController>();
 
         newSwordScript.SetupSword(finalDir, swordGravity);
-
+        isHave = false;
         DotsActive(false);
     }
 
@@ -53,6 +55,7 @@ public class SwordSkill : Skill
     {
         Vector2 playerPosition = player.transform.position;
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         Vector2 direction = mousePosition - playerPosition;
 
         return direction;

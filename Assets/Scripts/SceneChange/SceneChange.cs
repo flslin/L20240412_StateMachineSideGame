@@ -84,6 +84,7 @@ public class SceneChange : MonoBehaviour
         text.fontSize = 0;
         text.text = "적을 모두 처치하세요";
         yield return new WaitForSeconds(0.8f);
+        text.fontSize = 0;
         text.text = "";
     }
 }

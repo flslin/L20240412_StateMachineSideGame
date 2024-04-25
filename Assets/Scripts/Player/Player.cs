@@ -66,6 +66,8 @@ public class Player : Entity
     {
         base.Start();
 
+        skill = SkillManager.instance;
+
         stateMachine.Initialize(idleState);
     }
 

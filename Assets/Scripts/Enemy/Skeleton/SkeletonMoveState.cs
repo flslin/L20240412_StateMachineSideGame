@@ -30,9 +30,6 @@ public class SkeletonMoveState : SkeletonGroundedState
             enemy.Flip();
             stateMachine.ChangeState(enemy.idleState);
         }
-
-       
-
     }
 
     public void SetIdleState(Enemy_Skeleton enemy)

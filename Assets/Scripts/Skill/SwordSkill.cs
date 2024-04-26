@@ -19,8 +19,6 @@ public class SwordSkill : Skill
     [SerializeField] private Transform dotsParent;
     private GameObject[] dots;
 
-    public bool isHave = true;
-
     protected override void Start()
     {
         base.Start();
@@ -30,7 +28,9 @@ public class SwordSkill : Skill
     protected override void Update()
     {
         if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
             finalDir = new Vector2(AimDirection().normalized.x * launchForce.x, AimDirection().normalized.y * launchForce.y);
+        }
 
         if(Input.GetKey(KeyCode.Mouse1))
         {
@@ -47,7 +47,6 @@ public class SwordSkill : Skill
         SwordSkillController newSwordScript = newSword.GetComponent<SwordSkillController>();
 
         newSwordScript.SetupSword(finalDir, swordGravity);
-        isHave = false;
         DotsActive(false);
     }
 

@@ -8,10 +8,12 @@ public class Skill : MonoBehaviour
     protected float cooldownTimer;
 
     protected Player player;
+    protected Enemy enemy;
 
     protected virtual void Start()
     {
         player = PlayerManager.instance.player;
+        enemy = EnemyManager.instance.enemy;
     }
 
     protected virtual void Update()
